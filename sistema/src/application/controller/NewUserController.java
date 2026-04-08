@@ -73,7 +73,6 @@ public class NewUserController {
     		funcionario.setSenha(txtSenha.getText());
     		funcionario.setFuncao(funcaoSelecionada);
     		funcionario.setCnpj(txtCnpj.getText());
-    		funcionario.Salvar();
     		
     		if(funcionario.Salvar()) {
     			Alert mensage = new Alert(Alert.AlertType.CONFIRMATION);
