@@ -43,7 +43,7 @@ public class FuncionarioModel{
 	public void setFuncao(String funcao) {this.funcao=funcao;}
 	public void setCnpj(String cnpj) {this.cnpj=cnpj;}
 	
-	public void Salvar() {
+	public boolean Salvar() {
 		
 		try(Connection conn = conexao.getConnection();
 				PreparedStatement consulta = conn.prepareStatement("insert into funcionario(nome, cpf, email, senha, funcao, cnpj) value(?,?,?,?,?,?)")) {
@@ -55,6 +55,7 @@ public class FuncionarioModel{
 			consulta.setString(5, funcao);
 			consulta.setString(6, cnpj);
 			consulta.executeUpdate();
+			return true;
 			
 		}catch(Exception e) {
 			
@@ -76,6 +77,7 @@ public class FuncionarioModel{
 		    }
 
 		    alerta.show();
+		    return false;
 			
 		}
 		
