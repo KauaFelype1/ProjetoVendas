@@ -40,6 +40,9 @@ public class CadastroProdutoController {
     private TextField txtCode;
     
     @FXML
+    private TextField txtPrecoComprado;
+    
+    @FXML
     private Button btnBuscar;
     
     @FXML
@@ -68,13 +71,16 @@ public class CadastroProdutoController {
     
     @FXML
     private TableColumn<ProdutoModel, String> colCodigo;
+    
+    @FXML
+    private TableColumn<ProdutoModel, Double> colPrecoCusto;
 
     @FXML
     private TableView<ProdutoModel> tabProduto;
     
     private ObservableList<ProdutoModel> listaProdutos;
     
-    ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null);
+    ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null, 0);
     
     // MÉTODO PARA SALVAR O CADASTRO
     public void Salvar() {
@@ -82,7 +88,7 @@ public class CadastroProdutoController {
 
         if(txtNome.getText().isEmpty() || txtDescricao.getText().isEmpty() || 
            txtCategoria.getText().isEmpty() || txtPreco.getText().isEmpty() || 
-           txtCode.getText().isEmpty()) {
+           txtCode.getText().isEmpty() || txtPrecoComprado.getText().isEmpty()) {
 
         	String erro="";
         	if(txtNome.getText().isEmpty()) {erro=erro+"\nCampo Nome em Branco!";}
@@ -90,6 +96,7 @@ public class CadastroProdutoController {
         	if(txtCategoria.getText().isEmpty()) {erro=erro+"\nCampo Categoria em Branco!";}
         	if(txtPreco.getText().isEmpty()) {erro=erro+"\nCampo Preço em Branco!";}
         	if(txtCode.getText().isEmpty()) {erro=erro+"\nCampo Código de barra em Branco!";}
+        	if(txtPrecoComprado.getText().isEmpty()) {erro=erro+"\nCampo Preço Comprado em Branco!";}
         	
             mensage = new Alert(Alert.AlertType.ERROR);
             mensage.setTitle("ERRO");
@@ -105,6 +112,7 @@ public class CadastroProdutoController {
             produto.setPreco(Double.parseDouble(txtPreco.getText().replace(",", ".")));
             produto.setQuantidade(0);
             produto.setCodigo(txtCode.getText());
+            produto.setPrecoCusto(Double.parseDouble(txtPrecoComprado.getText()));
 
             produto.Salvar();
 
@@ -121,6 +129,7 @@ public class CadastroProdutoController {
             txtQuantidade.setText("");
             txtId.setText("");
             txtCode.setText(ProdutoModel.gerarEAN13());
+            txtPrecoComprado.clear();
             ListarProdutosTab(null);
         }
     }
@@ -142,6 +151,7 @@ public class CadastroProdutoController {
     		txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
     		txtId.setText(String.format("%06d",produto.getId()));
     		txtCode.setText(produto.getCodigo());
+    		txtPrecoComprado.setText(String.valueOf(produto.getPrecoCusto()));
     		
     		
     	}else {
@@ -160,6 +170,7 @@ public class CadastroProdutoController {
             txtQuantidade.clear();
             txtId.clear();
             txtCode.clear();
+            txtPrecoComprado.clear();
     		
     	}
     	
@@ -177,6 +188,7 @@ public class CadastroProdutoController {
         txtQuantidade.clear();
         txtId.clear();
         txtCode.clear();
+        txtPrecoComprado.clear();
         ListarProdutosTab(null);
     	
     }
@@ -209,6 +221,7 @@ public class CadastroProdutoController {
     	});
     	colQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
     	colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+    	colPrecoCusto.setCellValueFactory(new PropertyValueFactory<>("precoCusto"));
     	
     	AtualizarCampo();
     	
@@ -236,6 +249,7 @@ public class CadastroProdutoController {
                 txtPreco.setText(String.valueOf(selecionado.getPreco()).replace(".", ","));
                 txtQuantidade.setText(String.valueOf(selecionado.getQuantidade()));
                 txtCode.setText(selecionado.getCodigo());
+                txtPrecoComprado.setText(String.valueOf(selecionado.getPrecoCusto()));
                 
                 produto = selecionado;
             }

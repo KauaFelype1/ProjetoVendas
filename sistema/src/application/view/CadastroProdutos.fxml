@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CadastroProdutoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CadastroProdutoController">
    <children>
-      <Label layoutX="288.0" layoutY="14.0" text="Cadastro de Produtos">
+      <Label layoutX="333.0" layoutY="14.0" text="Cadastro de Produtos">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -52,10 +52,13 @@
             <TableColumn fx:id="colCategoria" minWidth="0.0" prefWidth="134.39996337890625" text="Categoria" />
             <TableColumn fx:id="colPreco" prefWidth="94.4000244140625" text="Preço" />
             <TableColumn fx:id="colQuantidade" prefWidth="97.59991455078125" text="Quantidade" />
-            <TableColumn fx:id="colCodigo" prefWidth="112.79998779296875" text="Codigo" />
+            <TableColumn fx:id="colCodigo" prefWidth="123.99993896484375" text="Codigo" />
+            <TableColumn fx:id="colPrecoCusto" prefWidth="104.0" text="Preço de Custo" />
         </columns>
       </TableView>
       <TextField fx:id="txtCode" disable="true" editable="false" layoutX="580.0" layoutY="88.0" promptText="Código de barra" />
       <Label layoutX="580.0" layoutY="63.0" text="Código de barra" />
+      <TextField fx:id="txtPrecoComprado" layoutX="581.0" layoutY="155.0" promptText="Preço Comprado" />
+      <Label layoutX="585.0" layoutY="130.0" text="Preço Comprado" />
    </children>
 </AnchorPane>

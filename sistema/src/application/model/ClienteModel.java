@@ -135,4 +135,67 @@ public class ClienteModel {
 		
 	}
 	
+	public void Buscar(String valor) {
+		
+		try(Connection conn = conexao.getConnection();
+				PreparedStatement consulta = conn.prepareStatement("select * from cliente where nome like ? or cpf like ? or email like ?");) {
+			
+			consulta.setString(1, "%"+valor+"%");
+			consulta.setString(2, "%"+valor+"%");
+			consulta.setString(3, "%"+valor+"%");
+			
+			ResultSet resultado = consulta.executeQuery();
+			
+			if(resultado.next()) {
+				this.idCli = resultado.getInt("idCli");
+				this.nome = resultado.getString("nome");
+				this.cpf = resultado.getString("cpf");
+				this.email = resultado.getString("email");
+				this.senha = resultado.getString("senha");
+				this.statusCli = resultado.getString("statusCli");
+			}else {
+				
+				Alert mensage = new Alert(Alert.AlertType.ERROR);
+				mensage.setTitle("Erro");
+				mensage.setHeaderText(null);
+				mensage.setContentText("Cliente não encontrado!");
+				mensage.showAndWait();
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void Update() {
+		
+		if(this.idCli>0) {
+			
+			try(Connection conn = conexao.getConnection();
+					PreparedStatement consulta = conn.prepareStatement("update cliente set nome = ?, senha = ?, statusCli = ? where idCli=?");) {
+				
+				consulta.setString(1, this.nome);
+				consulta.setString(2, this.senha);
+				consulta.setString(3, this.statusCli);
+				consulta.setInt(4, this.idCli);
+				consulta.executeUpdate();
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else {
+			
+			Alert mensage = new Alert(Alert.AlertType.ERROR);
+			mensage.setTitle("Erro");
+			mensage.setHeaderText(null);
+			mensage.setContentText("Cliente não encontrado!");
+			mensage.showAndWait();
+			
+		}
+		
+	}
+	
 }

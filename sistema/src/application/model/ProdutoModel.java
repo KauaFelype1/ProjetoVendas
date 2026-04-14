@@ -20,8 +20,9 @@ public class ProdutoModel {
 	private double preco;
 	private int quantidade;
 	private String codigo;
+	private double precoCusto;
 	
-	public ProdutoModel(int id, String nome, String descricao, String categoria, double preco, int quantidade, String codigo) {
+	public ProdutoModel(int id, String nome, String descricao, String categoria, double preco, int quantidade, String codigo, double precoCusto) {
 		this.id=id;
 		this.nome=nome;
 		this.descricao=descricao;
@@ -29,10 +30,19 @@ public class ProdutoModel {
 		this.preco=preco;
 		this.quantidade=quantidade;
 		this.codigo=codigo;
+		this.precoCusto=precoCusto;
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public double getPrecoCusto() {
+		return precoCusto;
+	}
+	
+	public void setPrecoCusto(double precoCusto) {
+		this.precoCusto=precoCusto;
 	}
 	
 	public void setId(int id) {
@@ -246,7 +256,8 @@ public class ProdutoModel {
 							resultado.getString("categoria"),
 							resultado.getDouble("preco"),
 							resultado.getInt("quantidade"),
-							resultado.getString("codigo")
+							resultado.getString("codigo"),
+							resultado.getDouble("precoCusto")
 							);
 					
 					produtos.add(p);

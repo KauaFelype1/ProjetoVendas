@@ -75,7 +75,7 @@ public class ProcessarEstoqueController {
     private ToggleGroup rdTipo;
     private ObservableList <ProdutoModel> listaProdutos;
     
-    ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null);
+    ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null, 0);
     
     @FXML
     public void initialize() {
@@ -161,7 +161,8 @@ public class ProcessarEstoqueController {
     					resultado.getString("categoria"),
     					resultado.getDouble("preco"),
     					resultado.getInt("quantidade"),
-    					resultado.getString("codigo")
+    					resultado.getString("codigo"),
+    					resultado.getDouble("precoCusto")
     					);
     			produtos.add(p);
     			
