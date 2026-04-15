@@ -99,19 +99,20 @@ public class ProdutoModel {
 	
 	public void Salvar() {
 		try(Connection conn = conexao.getConnection();
-				PreparedStatement consulta=conn.prepareStatement("insert into produto (nome, descricao, categoria, preco, quantidade, codigo) values (?,?,?,?,?,?)");) {
+				PreparedStatement consulta=conn.prepareStatement("insert into produto (nome, descricao, categoria, preco, quantidade, codigo, precoCusto) values (?,?,?,?,?,?,?)");) {
 			
 			// VERIFICA SE EXISTE ID
 			if(this.id>0) {   // SE EXISTIR ALTERA, SENÃO CADASTRA
 				try{
-					PreparedStatement consultaUpdate = conn.prepareStatement("update produto set nome=?,descricao=?,categoria=?,preco=?,quantidade=?,codigo=? where id=?");
+					PreparedStatement consultaUpdate = conn.prepareStatement("update produto set nome=?,descricao=?,categoria=?,preco=?,quantidade=?,codigo=?,precoCusto=? where id=?");
 					consultaUpdate.setString(1,  this.nome);
 					consultaUpdate.setString(2,  this.descricao);
 					consultaUpdate.setString(3,  this.categoria);
 					consultaUpdate.setDouble(4,  this.preco);
 					consultaUpdate.setInt(5,  this.quantidade);
 					consultaUpdate.setString(6,  this.codigo);
-					consultaUpdate.setInt(7, this.id);
+					consultaUpdate.setDouble(7, this.precoCusto);
+					consultaUpdate.setInt(8, this.id);
 					consultaUpdate.executeUpdate();
 					
 				}catch(Exception e) {
@@ -124,6 +125,7 @@ public class ProdutoModel {
 			consulta.setDouble(4, this.preco);      // ESSAS DUAS ULTIMAS A GENTE MUDA O SET STRING PARA SET TIPO DA VARIAVEL, JA QUE ESLAS NÃO SÃO STRING
 			consulta.setInt(5, this.quantidade);
 			consulta.setString(6, this.codigo);
+			consulta.setDouble(7, this.precoCusto);
 			
 			consulta.executeUpdate();
 			

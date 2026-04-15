@@ -60,5 +60,6 @@
       <Label layoutX="580.0" layoutY="63.0" text="Código de barra" />
       <TextField fx:id="txtPrecoComprado" layoutX="581.0" layoutY="155.0" promptText="Preço Comprado" />
       <Label layoutX="585.0" layoutY="130.0" text="Preço Comprado" />
+      <Button fx:id="btnSugestao" layoutX="560.0" layoutY="228.0" mnemonicParsing="false" onAction="#CalcularPreco" text="Sugestão para preço" />
    </children>
 </AnchorPane>

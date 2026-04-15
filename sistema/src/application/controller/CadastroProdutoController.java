@@ -17,6 +17,9 @@ public class CadastroProdutoController {
 
     @FXML
     private Button btnSalvar;
+    
+    @FXML
+    private Button btnSugestao;
 
     @FXML
     private TextField txtCategoria;
@@ -169,7 +172,7 @@ public class CadastroProdutoController {
             txtPreco.clear();
             txtQuantidade.clear();
             txtId.clear();
-            txtCode.clear();
+            txtCode.setText(ProdutoModel.gerarEAN13());
             txtPrecoComprado.clear();
     		
     	}
@@ -188,7 +191,7 @@ public class CadastroProdutoController {
         txtQuantidade.clear();
         txtId.clear();
         txtCode.clear();
-        txtPrecoComprado.clear();
+        txtPrecoComprado.setText(ProdutoModel.gerarEAN13());
         ListarProdutosTab(null);
     	
     }
@@ -255,6 +258,55 @@ public class CadastroProdutoController {
             }
     		
     	});
+    	
+    }
+    
+    public void CalcularPreco() {
+    	
+    	try {
+    		
+    		double precoCusto = Double.parseDouble(txtPrecoComprado.getText().replace(",", "."));
+    		
+    		if(precoCusto <= 0){
+                throw new Exception();
+            }
+    		
+    		double margem = 0;
+    		
+    		if(precoCusto > 0 && precoCusto <= 10) {
+    			margem = 5;
+    		} else if(precoCusto <= 40 && precoCusto > 10) {
+    			margem = 10;
+    		}else if(precoCusto <= 100 && precoCusto > 40) {
+    			margem = 25;
+    		}else if(precoCusto > 100 && precoCusto <= 200) {
+    			margem = 33;
+    		}else if(precoCusto > 200) {
+    			margem = 45;
+    		}
+    		
+    		double precoVenda = precoCusto + (precoCusto * margem / 100);
+    		double lucro = precoVenda - precoCusto;
+    		double porcentagem = (lucro / precoCusto) * 100;
+    		
+    		String mensagem = "Sugestão de Venda\n\n"
+                    + "Preço de Custo: R$ " + String.format("%.2f", precoCusto).replace(".", ",") + "\n"
+                    + "Margem aplicada: " + margem + "%\n\n"
+                    + "Preço sugerido: R$ " + String.format("%.2f", precoVenda).replace(".", ",") + "\n"
+                    + "Lucro: R$ " + String.format("%.2f", lucro).replace(".", ",") + "\n"
+                    + "Porcentagem de ganho: " + String.format("%.2f", porcentagem) + "%";
+    		
+    		Alert mensage = new Alert(Alert.AlertType.INFORMATION);
+    		mensage.setTitle("Sugestão de venda");
+    		mensage.setHeaderText(null);
+    		mensage.setContentText(mensagem);
+    		mensage.showAndWait();
+    		
+    	}catch(Exception e) {
+    		Alert alert = new Alert(Alert.AlertType.ERROR);
+    		alert.setContentText("Preencha o preço de custo");
+    		alert.showAndWait();
+    	}
     	
     }
 
