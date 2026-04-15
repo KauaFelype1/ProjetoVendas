@@ -25,6 +25,7 @@
           <Menu mnemonicParsing="false" text="Operações">
             <items>
               <MenuItem fx:id="itemProcessaEstoque" mnemonicParsing="false" onAction="#AbrirProcessarEstoque" text="Processar Estoque" />
+                  <MenuItem fx:id="itemVendas" mnemonicParsing="false" onAction="#AbrirVendas" text="Vendas" />
             </items>
           </Menu>
         </menus>

@@ -22,6 +22,9 @@ public class SistemaController {
     private MenuItem itemSair;
     
     @FXML
+    private MenuItem itemVendas;
+    
+    @FXML
     private void initialize() {
     	
     }
@@ -60,6 +63,20 @@ public class SistemaController {
     	
     	try {
     		Parent root = FXMLLoader.load(getClass().getResource("/application/view/ProcessarEstoque.fxml"));
+    		Stage stage = new Stage();
+    		Scene scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.show();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+    
+    public void AbrirVendas() {
+    	
+    	try {
+    		Parent root = FXMLLoader.load(getClass().getResource("/application/view/SelecaoCliente.fxml"));
     		Stage stage = new Stage();
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
