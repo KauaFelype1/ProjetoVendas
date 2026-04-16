@@ -49,19 +49,25 @@ public class CaixaRegistradoraController {
 
     private double totalPago = 0;
 
+    private int idCliente = 0;
+
     ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null, 0);
+
+    // 🔥 RECEBE CLIENTE DA OUTRA TELA
+    public void setCliente(int idCli, String nome) {
+        this.idCliente = idCli;
+        lblNome.setText(nome);
+    }
 
     @FXML
     public void initialize() {
 
-        // PRODUTOS
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         colPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         colQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
 
-        // CARRINHO
         colCarNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCarQtd.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         colCarPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
@@ -72,7 +78,6 @@ public class CaixaRegistradoraController {
         listaProdutos(null);
         AtualizarCampo();
 
-        // MENU PAGAMENTO
         itemDinheiro.setOnAction(e -> menuPagamento.setText("Dinheiro"));
         itemCartaoDebito.setOnAction(e -> menuPagamento.setText("Cartão Débito"));
         itemCartaoCredito.setOnAction(e -> menuPagamento.setText("Cartão Crédito"));
@@ -103,20 +108,32 @@ public class CaixaRegistradoraController {
             int qtd = Integer.parseInt(txtQuantidade.getText());
             if (qtd <= 0) throw new Exception();
 
-            if (qtd > produto.getQuantidade()) {
-                new Alert(Alert.AlertType.ERROR, "Estoque insuficiente!").show();
-                return;
-            }
-
+            // 🔥 VERIFICA SE JÁ EXISTE NO CARRINHO
             for (ItemVendaModel item : carrinho) {
                 if (item.getIdProduto() == produto.getId()) {
-                    item.setQuantidade(item.getQuantidade() + qtd);
-                    item.setSubtotal(item.getQuantidade() * item.getPreco());
+
+                    int novaQtd = item.getQuantidade() + qtd;
+
+                    // 🔥 VALIDA ESTOQUE TOTAL
+                    if (novaQtd > produto.getQuantidade()) {
+                        new Alert(Alert.AlertType.ERROR, "Estoque insuficiente!").show();
+                        return;
+                    }
+
+                    item.setQuantidade(novaQtd);
+                    item.setSubtotal(novaQtd * item.getPreco());
+
                     tabCarrinho.refresh();
                     calcularTotal();
                     limparCampos();
                     return;
                 }
+            }
+
+            // 🔥 SE NÃO EXISTE NO CARRINHO
+            if (qtd > produto.getQuantidade()) {
+                new Alert(Alert.AlertType.ERROR, "Estoque insuficiente!").show();
+                return;
             }
 
             carrinho.add(new ItemVendaModel(
@@ -175,32 +192,6 @@ public class CaixaRegistradoraController {
         produto = new ProdutoModel(0, null, null, null, 0, 0, null, 0);
     }
 
-    // 🔥 DESCONTO
-    @FXML
-    private void aplicarDesconto() {
-        try {
-
-            double desconto = Double.parseDouble(txtDesconto.getText().replace(",", "."));
-
-            if (desconto > 5) {
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setHeaderText("Senha do gerente:");
-                String senha = dialog.showAndWait().orElse("");
-
-                if (!senha.equals("1234")) {
-                    new Alert(Alert.AlertType.ERROR, "Senha incorreta!").show();
-                    return;
-                }
-            }
-
-            calcularTotal();
-
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Desconto inválido!").show();
-        }
-    }
-
-    // 💳 PAGAMENTO
     @FXML
     private void adicionarPagamento() {
         try {
@@ -227,7 +218,6 @@ public class CaixaRegistradoraController {
         }
     }
 
-    // 💰 TROCO
     private void calcularTroco() {
 
         double totalFinal = getTotalComDesconto();
@@ -241,40 +231,109 @@ public class CaixaRegistradoraController {
                     String.format("%.2f", troco).replace(".", ","));
         }
     }
-    
+
     @FXML
     private void finalizarVenda() {
 
         try {
 
+            if (idCliente == 0) {
+                new Alert(Alert.AlertType.ERROR, "Cliente não selecionado!").show();
+                return;
+            }
+
             if (carrinho.isEmpty()) {
-                throw new Exception("Carrinho vazio!");
+                new Alert(Alert.AlertType.ERROR, "Carrinho vazio!").show();
+                return;
             }
 
-            double totalFinal = getTotalComDesconto();
-
-            if (totalPago < totalFinal) {
-                throw new Exception("Pagamento insuficiente!");
+            if (listPagamentos.getItems().isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Adicione um pagamento!").show();
+                return;
             }
 
-            // 🔥 AQUI futuramente vai salvar no banco
+            double total = getTotalCarrinho();
+            double desconto = 0;
+
+            try {
+                desconto = Double.parseDouble(txtDesconto.getText().replace(",", "."));
+            } catch (Exception e) {}
+
+            double totalFinal = total - (total * desconto / 100);
+
+            java.sql.Connection conn = application.conexao.getConnection();
+
+            // 🔥 VENDA
+            String sqlVenda = "INSERT INTO venda (idCli, dataHora, totalVenda, desconto) VALUES (?, NOW(), ?, ?)";
+            java.sql.PreparedStatement stmtVenda = conn.prepareStatement(
+                    sqlVenda, java.sql.Statement.RETURN_GENERATED_KEYS);
+
+            stmtVenda.setInt(1, idCliente);
+            stmtVenda.setDouble(2, totalFinal);
+            stmtVenda.setDouble(3, desconto);
+            stmtVenda.executeUpdate();
+
+            java.sql.ResultSet rs = stmtVenda.getGeneratedKeys();
+            int idVenda = 0;
+
+            if (rs.next()) idVenda = rs.getInt(1);
+
+            // 🔥 ITENS DA VENDA
+            String sqlItem = "INSERT INTO itemVenda (idVenda, idProd, quantidade, precoUnitario) VALUES (?, ?, ?, ?)";
+            java.sql.PreparedStatement stmtItem = conn.prepareStatement(sqlItem);
+
+            for (ItemVendaModel item : carrinho) {
+                stmtItem.setInt(1, idVenda);
+                stmtItem.setInt(2, item.getIdProduto());
+                stmtItem.setInt(3, item.getQuantidade());
+                stmtItem.setDouble(4, item.getPreco());
+                stmtItem.executeUpdate();
+            }
+
+            // 🔥 ATUALIZA ESTOQUE (AGORA SIM, NO LUGAR CERTO)
+            String sqlEstoque = "UPDATE produto SET quantidade = quantidade - ? WHERE id = ?";
+            java.sql.PreparedStatement stmtEstoque = conn.prepareStatement(sqlEstoque);
+
+            for (ItemVendaModel item : carrinho) {
+                stmtEstoque.setInt(1, item.getQuantidade());
+                stmtEstoque.setInt(2, item.getIdProduto());
+                stmtEstoque.executeUpdate();
+            }
+
+            // 🔥 PAGAMENTOS
+            String sqlPag = "INSERT INTO pagamento (idVenda, tipo, valor) VALUES (?, ?, ?)";
+            java.sql.PreparedStatement stmtPag = conn.prepareStatement(sqlPag);
+
+            for (String pag : listPagamentos.getItems()) {
+
+                String[] partes = pag.split(" - R\\$ ");
+                if (partes.length < 2) continue;
+
+                String tipo = partes[0].trim();
+                double valor = Double.parseDouble(partes[1].replace(",", ".").trim());
+
+                stmtPag.setInt(1, idVenda);
+                stmtPag.setString(2, tipo);
+                stmtPag.setDouble(3, valor);
+                stmtPag.executeUpdate();
+            }
+
+            conn.close();
 
             gerarCupom();
-
-            new Alert(Alert.AlertType.INFORMATION, "Venda finalizada com sucesso!").show();
-
             limparVenda();
 
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erro ao finalizar venda!").show();
         }
     }
-    
+
     private void gerarCupom() {
 
         StringBuilder cupom = new StringBuilder();
 
-        cupom.append("===== CUPOM NÃO FISCAL =====\n\n");
+        cupom.append("===== CUPOM FISCAL =====\n\n");
 
         for (ItemVendaModel item : carrinho) {
             cupom.append(item.getNome())
@@ -314,20 +373,39 @@ public class CaixaRegistradoraController {
         alert.setContentText(cupom.toString());
         alert.showAndWait();
     }
-    
-    private void limparVenda() {
 
+    private void limparVenda() {
         carrinho.clear();
         listPagamentos.getItems().clear();
-
         totalPago = 0;
-
         txtDesconto.setText("0");
         txtValorPago.clear();
-
         lblTotal.setText("R$ 0,00");
         lblTotalComDesconto.setText("Total com desconto: R$ 0,00");
         lblTroco.setText("R$ 0,00");
     }
-    
+
+    @FXML
+    private void aplicarDesconto() {
+        try {
+
+            double desconto = Double.parseDouble(txtDesconto.getText().replace(",", "."));
+
+            if (desconto > 5) {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setHeaderText("Senha do gerente:");
+                String senha = dialog.showAndWait().orElse("");
+
+                if (!senha.equals("1234")) {
+                    new Alert(Alert.AlertType.ERROR, "Senha incorreta!").show();
+                    return;
+                }
+            }
+
+            calcularTotal();
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Desconto inválido!").show();
+        }
+    }
 }

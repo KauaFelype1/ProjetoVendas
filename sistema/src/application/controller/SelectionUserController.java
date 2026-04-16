@@ -112,20 +112,33 @@ public class SelectionUserController {
     }
     
     public void Confirmar() {
-    	
-    	try {
-    		
-    		Parent root = FXMLLoader.load(getClass().getResource("/application/view/caixaRegistradora.fxml"));
-    		
-    		Stage stage = new Stage();
-    		Scene scene = new Scene(root);
-    		stage.setScene(scene);
-    		stage.show();
-    		
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	}
-    	
+
+        try {
+
+            if (cliente.getId() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Selecione um cliente!").show();
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/application/view/caixaRegistradora.fxml")
+            );
+
+            Parent root = loader.load();
+
+            CaixaRegistradoraController controller = loader.getController();
+
+            controller.setCliente(cliente.getId(), cliente.getNome());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            ((Stage) btnConfirmar.getScene().getWindow()).close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
