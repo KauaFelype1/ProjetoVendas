@@ -115,7 +115,8 @@ public class SelectionUserController {
     	
     	try {
     		
-    		Parent root = FXMLLoader.load(getClass().getResource("/application/view/.fxml"));
+    		Parent root = FXMLLoader.load(getClass().getResource("/application/view/caixaRegistradora.fxml"));
+    		
     		Stage stage = new Stage();
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
