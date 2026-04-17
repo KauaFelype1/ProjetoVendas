@@ -4,6 +4,7 @@ import application.model.FuncionarioModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -42,6 +43,9 @@ public class NewUserController {
 
     @FXML
     private TextField txtSenha;
+    
+    @FXML
+    private Label lblCancelar;
     
     FuncionarioModel funcionario = new FuncionarioModel(0, null, null, null, null, null, null);
     
@@ -94,6 +98,10 @@ public class NewUserController {
     	ItemGerente.setOnAction(e-> MenuFuncao.setText(ItemGerente.getText()));
     	ItemVendedor.setOnAction(e-> MenuFuncao.setText(ItemVendedor.getText()));
     	ItemEstoquista.setOnAction(e-> MenuFuncao.setText(ItemEstoquista.getText()));
+    	
+    	lblCancelar.setOnMouseClicked(e->{
+    		txtNome.getScene().getWindow().hide();
+    	});
     	
     }
 

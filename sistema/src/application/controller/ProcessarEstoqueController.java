@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -106,7 +107,12 @@ public class ProcessarEstoqueController {
     		produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
     		// PEGA A INFORMAÇÃO SELECIONADA SE ENTRADA OU SAIDA
     		RadioButton operacao = (RadioButton) rdTipo.getSelectedToggle();
-    		produto.ProcessaEstoque(operacao.getText());
+    		boolean sucesso = produto.ProcessaEstoque(operacao.getText());
+
+    	    if (!sucesso) {
+    	        new Alert(Alert.AlertType.ERROR, "Estoque insuficiente!").show();
+    	        return;
+    	    }
     		txtPesquisar.clear();
     		txtId.clear();
     		txtCodeBarras.clear();

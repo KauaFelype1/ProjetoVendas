@@ -7,8 +7,12 @@ import application.model.ProdutoModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class CaixaRegistradoraController {
 
@@ -53,7 +57,6 @@ public class CaixaRegistradoraController {
 
     ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null, 0);
 
-    // 🔥 RECEBE CLIENTE DA OUTRA TELA
     public void setCliente(int idCli, String nome) {
         this.idCliente = idCli;
         lblNome.setText(nome);
@@ -61,6 +64,8 @@ public class CaixaRegistradoraController {
 
     @FXML
     public void initialize() {
+    	
+    	txtProduto.setOnAction(e->{buscar();});
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -108,13 +113,11 @@ public class CaixaRegistradoraController {
             int qtd = Integer.parseInt(txtQuantidade.getText());
             if (qtd <= 0) throw new Exception();
 
-            // 🔥 VERIFICA SE JÁ EXISTE NO CARRINHO
             for (ItemVendaModel item : carrinho) {
                 if (item.getIdProduto() == produto.getId()) {
 
                     int novaQtd = item.getQuantidade() + qtd;
 
-                    // 🔥 VALIDA ESTOQUE TOTAL
                     if (novaQtd > produto.getQuantidade()) {
                         new Alert(Alert.AlertType.ERROR, "Estoque insuficiente!").show();
                         return;
@@ -130,7 +133,6 @@ public class CaixaRegistradoraController {
                 }
             }
 
-            // 🔥 SE NÃO EXISTE NO CARRINHO
             if (qtd > produto.getQuantidade()) {
                 new Alert(Alert.AlertType.ERROR, "Estoque insuficiente!").show();
                 return;
@@ -213,7 +215,6 @@ public class CaixaRegistradoraController {
                 return;
             }
 
-            // PIX E CARTÃO NÃO ACEITAM VALOR MAIOR QUE O RESTANTE
             double restante = getTotalComDesconto() - totalPago;
             boolean isDinheiro = tipoPagamento.equals("Dinheiro");
 
@@ -236,7 +237,6 @@ public class CaixaRegistradoraController {
             txtValorPago.clear();
             menuPagamento.setText("Selecione");
 
-            // TROCO SÓ APARECE SE FOR DINHEIRO
             if (isDinheiro) {
                 double troco = totalPago - getTotalComDesconto();
                 if (troco >= 0) {
@@ -299,7 +299,6 @@ public class CaixaRegistradoraController {
 
             double totalFinal = getTotalCarrinho() - (getTotalCarrinho() * desconto / 100);
 
-            // VERIFICA SE O PAGAMENTO COBRE O TOTAL
             if (totalPago < totalFinal) {
                 new Alert(Alert.AlertType.ERROR,
                     "Pagamento insuficiente!\n" +
@@ -312,7 +311,6 @@ public class CaixaRegistradoraController {
 
             java.sql.Connection conn = application.conexao.getConnection();
 
-            // 🔥 VENDA
             String sqlVenda = "INSERT INTO venda (idCli, dataHora, totalVenda, desconto) VALUES (?, NOW(), ?, ?)";
             java.sql.PreparedStatement stmtVenda = conn.prepareStatement(
                     sqlVenda, java.sql.Statement.RETURN_GENERATED_KEYS);
@@ -327,7 +325,6 @@ public class CaixaRegistradoraController {
 
             if (rs.next()) idVenda = rs.getInt(1);
 
-            // 🔥 ITENS DA VENDA
             String sqlItem = "INSERT INTO itemVenda (idVenda, idProd, quantidade, precoUnitario) VALUES (?, ?, ?, ?)";
             java.sql.PreparedStatement stmtItem = conn.prepareStatement(sqlItem);
 
@@ -339,7 +336,6 @@ public class CaixaRegistradoraController {
                 stmtItem.executeUpdate();
             }
 
-            // 🔥 ATUALIZA ESTOQUE (AGORA SIM, NO LUGAR CERTO)
             String sqlEstoque = "UPDATE produto SET quantidade = quantidade - ? WHERE id = ?";
             java.sql.PreparedStatement stmtEstoque = conn.prepareStatement(sqlEstoque);
 
@@ -349,7 +345,6 @@ public class CaixaRegistradoraController {
                 stmtEstoque.executeUpdate();
             }
 
-            // 🔥 PAGAMENTOS
             String sqlPag = "INSERT INTO pagamento (idVenda, tipo, valor) VALUES (?, ?, ?)";
             java.sql.PreparedStatement stmtPag = conn.prepareStatement(sqlPag);
 
@@ -440,7 +435,6 @@ public class CaixaRegistradoraController {
     private void aplicarDesconto() {
         String textoDesconto = txtDesconto.getText().replace(",", ".");
 
-        // VERIFICA SE É NÚMERO
         if (!textoDesconto.matches("\\d+(\\.\\d+)?")) {
             new Alert(Alert.AlertType.ERROR, "Desconto inválido! Digite apenas números.").show();
             txtDesconto.setText("0");
@@ -457,7 +451,6 @@ public class CaixaRegistradoraController {
 
             String senha = dialog.showAndWait().orElse("");
 
-            // VALIDE A SENHA NO BANCO DE DADOS - AQUI É UM EXEMPLO FIXO
             if (!senha.equals("1234")) {
                 new Alert(Alert.AlertType.ERROR, "Senha incorreta! Desconto não aplicado.").show();
                 txtDesconto.setText("0");
@@ -467,4 +460,43 @@ public class CaixaRegistradoraController {
 
         calcularTotal();
     }
+    
+    public void buscar() {
+    	
+    	if(txtProduto.getText().isEmpty()) {
+    		
+    		Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText(null);
+            alert.setContentText("Preencha o campo!");
+            alert.showAndWait();
+            listaProdutos(null);
+    		
+    	}else {
+    		
+    		produto.Buscar(txtProduto.getText());
+    		listaProdutos(txtProduto.getText());
+    		
+    	}
+    	
+    }
+    
+    public void cancelar() {
+    	
+    	try {
+    		
+    		txtProduto.getScene().getWindow().hide();
+    		
+    		Parent root = FXMLLoader.load(getClass().getResource("/application/view/SelecaoCliente.fxml"));
+    		Stage stage = new Stage();
+    		Scene scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.showAndWait();
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+    
 }

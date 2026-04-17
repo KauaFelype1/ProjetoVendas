@@ -59,5 +59,6 @@
          </font>
       </Label>
       <Button fx:id="btnCadastrar" layoutX="266.0" layoutY="328.0" mnemonicParsing="false" onAction="#Salvar" text="Cadastrar" />
+      <Label fx:id="lblCancelar" layoutX="276.0" layoutY="360.0" text="Cancelar" />
    </children>
 </AnchorPane>

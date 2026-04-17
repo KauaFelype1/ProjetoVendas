@@ -25,6 +25,9 @@ public class SelectionUserController {
 
     @FXML
     private Button btnConfirmar;
+    
+    @FXML
+    private Button btnVoltar;
 
     @FXML
     private TableColumn<ClienteModel, String> colCpf;
@@ -116,8 +119,21 @@ public class SelectionUserController {
         try {
 
             if (cliente.getId() == 0) {
-                new Alert(Alert.AlertType.ERROR, "Selecione um cliente!").show();
-                return;
+            	Alert mensage = new Alert(Alert.AlertType.ERROR);
+            	mensage.setTitle("Erro");
+            	mensage.setHeaderText(null);
+            	mensage.setContentText("Selecione um cliente!");
+            	mensage.showAndWait();
+            	return;
+            }
+            
+            if (!cliente.isAtivo()) {
+            	Alert mensage = new Alert(Alert.AlertType.ERROR);
+            	mensage.setTitle("Erro");
+            	mensage.setHeaderText(null);
+            	mensage.setContentText("Cliente inativo não pode realizar compras!");
+            	mensage.showAndWait();
+            	return;
             }
 
             FXMLLoader loader = new FXMLLoader(
@@ -139,6 +155,12 @@ public class SelectionUserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void voltar() {
+    	
+    	btnBuscar.getScene().getWindow().hide();
+    	
     }
 
 }

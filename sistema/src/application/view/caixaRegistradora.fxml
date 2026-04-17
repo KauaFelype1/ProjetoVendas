@@ -24,7 +24,7 @@
     <!-- BUSCA PRODUTO -->
     <Label layoutX="14.0" layoutY="125.0" text="Produto:" />
     <TextField fx:id="txtProduto" layoutX="70.0" layoutY="121.0" prefWidth="300.0" promptText="Nome ou código de barras" />
-    <Button fx:id="btnBuscarProduto" layoutX="378.0" layoutY="121.0" text="Buscar" />
+    <Button fx:id="btnBuscarProduto" layoutX="378.0" layoutY="121.0" onAction="#buscar" text="Buscar" />
     <Label layoutX="14.0" layoutY="160.0" text="Quantidade:" />
     <TextField fx:id="txtQuantidade" layoutX="90.0" layoutY="156.0" prefWidth="80.0" text="1" />
     <Button fx:id="btnAddCarrinho" layoutX="180.0" layoutY="156.0" onAction="#adicionarCarrinho" text="Adicionar no carrinho" />
@@ -79,7 +79,7 @@
 
     <!-- BOTÕES FINAIS -->
     <Button fx:id="btnFinalizar" layoutX="460.0" layoutY="510.0" onAction="#finalizarVenda" prefWidth="150.0" text="Finalizar Venda" />
-    <Button fx:id="btnCancelar" layoutX="630.0" layoutY="510.0" text="Cancelar" />
+    <Button fx:id="btnCancelar" layoutX="630.0" layoutY="510.0" onAction="#cancelar" text="Cancelar" />
       <Button fx:id="btnDesconto" layoutX="644.0" layoutY="436.0" mnemonicParsing="false" onAction="#aplicarDesconto" text="Calcular" />
 
   </children>

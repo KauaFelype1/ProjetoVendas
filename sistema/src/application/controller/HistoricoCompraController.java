@@ -43,7 +43,6 @@ public class HistoricoCompraController {
 
     private int idCliente;
 
-    // 🔥 RECEBE CLIENTE DA OUTRA TELA (igual ao caixa)
     public void setCliente(int idCli, String nome) {
         this.idCliente = idCli;
         txtNome.setText(nome);

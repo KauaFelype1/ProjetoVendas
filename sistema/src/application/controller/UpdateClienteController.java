@@ -91,6 +91,8 @@ public class UpdateClienteController {
     @FXML
     public void initialize() {
     	
+    	txtBuscar.setOnAction(e->{buscar();});
+    	
     	itemAtivo.setOnAction(e-> MenuStatus.setText(itemAtivo.getText()));
     	itemInativo.setOnAction(e-> MenuStatus.setText(itemInativo.getText()));
     	
@@ -123,6 +125,7 @@ public class UpdateClienteController {
     		txtEmail.clear();
     		txtSenha.clear();
     		MenuStatus.setText("Status do Cliente");
+    		ListarClienteTab(null);
     		
     	}else {
     		
@@ -145,7 +148,7 @@ public class UpdateClienteController {
     	
     	String status = MenuStatus.getText();
     	
-    	if(txtNome.getText().isEmpty() || txtSenha.getText().isEmpty() || MenuStatus.getText().equals("Status do Cliente") ) {
+    	if(txtNome.getText().isEmpty() || txtSenha.getText().isEmpty() || MenuStatus.getText().equals("Status do Cliente") || txtCpf.getText().isEmpty() || txtEmail.getText().isEmpty()) {
     		
     		Alert mensage = new Alert(Alert.AlertType.ERROR);
 			mensage.setTitle("Erro");
@@ -247,7 +250,6 @@ public class UpdateClienteController {
 
         try {
 
-            // 🔥 valida se selecionou cliente
             if (cliente.getId() == 0) {
                 new Alert(Alert.AlertType.ERROR, "Selecione um cliente!").show();
                 return;
@@ -259,10 +261,8 @@ public class UpdateClienteController {
 
             Parent root = loader.load();
 
-            // 🔥 pega o controller da outra tela
             HistoricoCompraController controller = loader.getController();
 
-            // 🔥 manda o cliente pra tela de histórico
             controller.setCliente(cliente.getId(), cliente.getNome());
 
             Stage stage = new Stage();
@@ -272,6 +272,15 @@ public class UpdateClienteController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void excluir() {
+    	
+    	cliente.Excluir();
+    	
+    	limparCampo();
+    	ListarClienteTab(null);
+    	
     }
 
 }

@@ -198,4 +198,44 @@ public class ClienteModel {
 		
 	}
 	
+	public boolean isAtivo() {
+	    return statusCli != null && statusCli.equalsIgnoreCase("Ativo");
+	}
+
+	public boolean isInativo() {
+	    return statusCli != null && statusCli.equalsIgnoreCase("Inativo");
+	}
+	
+	public void Excluir() {
+		
+		try(Connection conn = conexao.getConnection();
+				PreparedStatement consulta= conn.prepareStatement("delete from cliente where idCli = ?");) {
+			
+			if(this.idCli>0) {
+				
+				consulta.setInt(1, this.idCli);
+				consulta.executeUpdate();
+				
+				Alert mensage = new Alert(Alert.AlertType.CONFIRMATION);
+				mensage.setTitle("Cliente excluído");
+				mensage.setHeaderText(null);
+				mensage.setContentText("Cliente excluído com sucesso!");
+				mensage.showAndWait();
+				
+			}else {
+				
+				Alert mensage = new Alert(Alert.AlertType.ERROR);
+				mensage.setTitle("Cliente excluído");
+				mensage.setHeaderText(null);
+				mensage.setContentText("Cliente não localizado!");
+				mensage.showAndWait();
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

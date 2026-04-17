@@ -207,28 +207,59 @@ public class ProdutoModel {
 		
 	}
 	
-	public void ProcessaEstoque(String operacao) {
-		MovimentacaoEstoqueModel movimentacao = new MovimentacaoEstoqueModel(0, this.id, this.nome, null, this.quantidade, operacao);
-		if(this.id>0) {
-			String sql = "update produto set quantidade = quantidade + ? where id=?";
-			if(operacao.equals("Saída")) {
-				sql="update produto set quantidade = quantidade - ? where id=?";
-			}
-		
-		
-		try(Connection conn = conexao.getConnection();
-				PreparedStatement consulta = conn.prepareStatement(sql);){
-			
-			consulta.setInt(1, this.quantidade);
-			consulta.setInt(2, this.id);
-			consulta.execute();
-			movimentacao.InsereMovimentacao();
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		}
-		
+	public boolean ProcessaEstoque(String operacao) {
+
+	    if (this.id <= 0) return false;
+
+	    try (Connection conn = conexao.getConnection()) {
+
+	        PreparedStatement verifica = conn.prepareStatement(
+	            "SELECT quantidade FROM produto WHERE id=?"
+	        );
+	        verifica.setInt(1, this.id);
+
+	        ResultSet rs = verifica.executeQuery();
+
+	        if (rs.next()) {
+
+	            int estoqueAtual = rs.getInt("quantidade");
+
+	            if (operacao.equals("Saída")) {
+
+	                if (estoqueAtual <= 0) {
+	                    return false;
+	                }
+
+	                if (this.quantidade > estoqueAtual) {
+	                    return false;
+	                }
+	            }
+
+	            String sql = "UPDATE produto SET quantidade = quantidade + ? WHERE id=?";
+	            
+	            if (operacao.equals("Saída")) {
+	                sql = "UPDATE produto SET quantidade = quantidade - ? WHERE id=?";
+	            }
+
+	            PreparedStatement consulta = conn.prepareStatement(sql);
+	            consulta.setInt(1, this.quantidade);
+	            consulta.setInt(2, this.id);
+	            consulta.execute();
+
+	            // 🔥 4. registra movimentação
+	            MovimentacaoEstoqueModel movimentacao = new MovimentacaoEstoqueModel(
+	                0, this.id, this.nome, null, this.quantidade, operacao
+	            );
+	            movimentacao.InsereMovimentacao();
+
+	            return true;
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return false;
 	}
 	
 	public List<ProdutoModel> ListarProdutos(String valor) {
