@@ -71,7 +71,7 @@
       </Label>
       <Button fx:id="btnConfirmar" layoutX="604.0" layoutY="245.0" mnemonicParsing="false" onAction="#Modificar" text="Confirmar" />
       <Button fx:id="btnExcluir" layoutX="686.0" layoutY="245.0" mnemonicParsing="false" text="Excluir" />
-      <Button fx:id="btnHistorico" layoutX="604.0" layoutY="207.0" mnemonicParsing="false" text="Abrir Histórico" />
+      <Button fx:id="btnHistorico" layoutX="604.0" layoutY="207.0" mnemonicParsing="false" onAction="#abrirHistorico" text="Abrir Histórico" />
       <Button fx:id="btnBuscar" layoutX="552.0" layoutY="98.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
       <Label layoutX="61.0" layoutY="80.0" text="Buscar Cliente">
          <font>

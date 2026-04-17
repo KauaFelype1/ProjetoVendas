@@ -241,5 +241,37 @@ public class UpdateClienteController {
     	MenuStatus.setText("Status do Cliente");
     	
     }
+    
+    @FXML
+    public void abrirHistorico() {
+
+        try {
+
+            // 🔥 valida se selecionou cliente
+            if (cliente.getId() == 0) {
+                new Alert(Alert.AlertType.ERROR, "Selecione um cliente!").show();
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/application/view/historicoCompra.fxml")
+            );
+
+            Parent root = loader.load();
+
+            // 🔥 pega o controller da outra tela
+            HistoricoCompraController controller = loader.getController();
+
+            // 🔥 manda o cliente pra tela de histórico
+            controller.setCliente(cliente.getId(), cliente.getNome());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -144,6 +144,7 @@ public class CaixaRegistradoraController {
             ));
 
             calcularTotal();
+            listaProdutos(null);
             limparCampos();
 
         } catch (Exception e) {
@@ -184,6 +185,7 @@ public class CaixaRegistradoraController {
             carrinho.remove(selecionado);
             calcularTotal();
         }
+        listaProdutos(null);
     }
 
     private void limparCampos() {
@@ -195,21 +197,55 @@ public class CaixaRegistradoraController {
     @FXML
     private void adicionarPagamento() {
         try {
+            String tipoPagamento = menuPagamento.getText();
 
-            if (menuPagamento.getText().equals("Selecione")) throw new Exception();
+            if (tipoPagamento.equals("Selecione")) {
+                new Alert(Alert.AlertType.ERROR, "Selecione a forma de pagamento!").show();
+                return;
+            }
 
-            double valor = Double.parseDouble(txtValorPago.getText().replace(",", "."));
-            if (valor <= 0) throw new Exception();
+            double valor;
+            try {
+                valor = Double.parseDouble(txtValorPago.getText().replace(",", "."));
+                if (valor <= 0) throw new Exception();
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Valor inválido!").show();
+                return;
+            }
+
+            // PIX E CARTÃO NÃO ACEITAM VALOR MAIOR QUE O RESTANTE
+            double restante = getTotalComDesconto() - totalPago;
+            boolean isDinheiro = tipoPagamento.equals("Dinheiro");
+
+            if (!isDinheiro && valor > restante) {
+                new Alert(Alert.AlertType.ERROR,
+                    "Pix e Cartão não geram troco!\n" +
+                    "Valor máximo para este pagamento: R$ " +
+                    String.format("%.2f", restante).replace(".", ",")
+                ).show();
+                return;
+            }
 
             totalPago += valor;
 
             listPagamentos.getItems().add(
-                    menuPagamento.getText() + " - R$ " +
-                    String.format("%.2f", valor).replace(".", ",")
+                tipoPagamento + " - R$ " +
+                String.format("%.2f", valor).replace(".", ",")
             );
 
             txtValorPago.clear();
             menuPagamento.setText("Selecione");
+
+            // TROCO SÓ APARECE SE FOR DINHEIRO
+            if (isDinheiro) {
+                double troco = totalPago - getTotalComDesconto();
+                if (troco >= 0) {
+                    lblTroco.setText("Troco: R$ " +
+                        String.format("%.2f", troco).replace(".", ","));
+                }
+            } else {
+                lblTroco.setText("Sem troco");
+            }
 
             calcularTroco();
 
@@ -252,14 +288,27 @@ public class CaixaRegistradoraController {
                 return;
             }
 
-            double total = getTotalCarrinho();
             double desconto = 0;
-
             try {
                 desconto = Double.parseDouble(txtDesconto.getText().replace(",", "."));
-            } catch (Exception e) {}
+                if (desconto < 0) throw new Exception();
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Desconto inválido! Use apenas números.").show();
+                return;
+            }
 
-            double totalFinal = total - (total * desconto / 100);
+            double totalFinal = getTotalCarrinho() - (getTotalCarrinho() * desconto / 100);
+
+            // VERIFICA SE O PAGAMENTO COBRE O TOTAL
+            if (totalPago < totalFinal) {
+                new Alert(Alert.AlertType.ERROR,
+                    "Pagamento insuficiente!\n" +
+                    "Total: R$ " + String.format("%.2f", totalFinal).replace(".", ",") + "\n" +
+                    "Pago: R$ " + String.format("%.2f", totalPago).replace(".", ",") + "\n" +
+                    "Faltam: R$ " + String.format("%.2f", totalFinal - totalPago).replace(".", ",")
+                ).show();
+                return;
+            }
 
             java.sql.Connection conn = application.conexao.getConnection();
 
@@ -322,6 +371,7 @@ public class CaixaRegistradoraController {
 
             gerarCupom();
             limparVenda();
+            listaProdutos(null);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -383,29 +433,38 @@ public class CaixaRegistradoraController {
         lblTotal.setText("R$ 0,00");
         lblTotalComDesconto.setText("Total com desconto: R$ 0,00");
         lblTroco.setText("R$ 0,00");
+        listaProdutos(null);
     }
 
     @FXML
     private void aplicarDesconto() {
-        try {
+        String textoDesconto = txtDesconto.getText().replace(",", ".");
 
-            double desconto = Double.parseDouble(txtDesconto.getText().replace(",", "."));
-
-            if (desconto > 5) {
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setHeaderText("Senha do gerente:");
-                String senha = dialog.showAndWait().orElse("");
-
-                if (!senha.equals("1234")) {
-                    new Alert(Alert.AlertType.ERROR, "Senha incorreta!").show();
-                    return;
-                }
-            }
-
-            calcularTotal();
-
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Desconto inválido!").show();
+        // VERIFICA SE É NÚMERO
+        if (!textoDesconto.matches("\\d+(\\.\\d+)?")) {
+            new Alert(Alert.AlertType.ERROR, "Desconto inválido! Digite apenas números.").show();
+            txtDesconto.setText("0");
+            return;
         }
+
+        double desconto = Double.parseDouble(textoDesconto);
+
+        if (desconto > 5) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Autorização");
+            dialog.setHeaderText("Desconto acima de 5% requer senha do Gerente:");
+            dialog.setContentText("Senha:");
+
+            String senha = dialog.showAndWait().orElse("");
+
+            // VALIDE A SENHA NO BANCO DE DADOS - AQUI É UM EXEMPLO FIXO
+            if (!senha.equals("1234")) {
+                new Alert(Alert.AlertType.ERROR, "Senha incorreta! Desconto não aplicado.").show();
+                txtDesconto.setText("0");
+                return;
+            }
+        }
+
+        calcularTotal();
     }
 }
