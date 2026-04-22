@@ -19,6 +19,9 @@ public class HistoricoController {
 
     @FXML
     private Button btnBuscar;
+    
+    @FXML
+    private Button btnVoltar;
 
     @FXML
     private TableColumn<MovimentacaoEstoqueModel, String> colData;
@@ -62,6 +65,8 @@ public class HistoricoController {
     @FXML
     public void initialize() {
     	
+    	btnVoltar.setOnAction(e->{voltar();});
+    	
     	colID.setCellValueFactory(new PropertyValueFactory<>("id"));
     	colIdProd.setCellValueFactory(new PropertyValueFactory<>("idProd"));
     	colData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -93,6 +98,10 @@ public class HistoricoController {
     	dtInicio.setValue(dataInicio);
     	dtFinal.setValue(dataFinal);
     	
+    }
+    
+    public void voltar() {
+    	btnVoltar.getScene().getWindow().hide();
     }
 
 }

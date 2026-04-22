@@ -147,7 +147,11 @@ public class SelectionUserController {
             controller.setCliente(cliente.getId(), cliente.getNome());
 
             Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+    		stage.setScene(scene);
+            stage.setTitle("Kauã");
+            stage.centerOnScreen();
+            stage.setMaximized(true);
             stage.show();
 
             ((Stage) btnConfirmar.getScene().getWindow()).close();

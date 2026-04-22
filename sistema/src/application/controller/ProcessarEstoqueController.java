@@ -35,6 +35,9 @@ public class ProcessarEstoqueController {
 
     @FXML
     private Button btnProcessor;
+    
+    @FXML
+    private Button btnVoltar;
 
     @FXML
     private TableColumn<ProdutoModel, String> colCategoria;
@@ -199,11 +202,21 @@ public class ProcessarEstoqueController {
     		HistoricoController controller = loader.getController();
     		controller.buscarHistorico(produto.getId(), primeiroDia, ultimoDia);
     		Stage stage = new Stage();
-    		stage.setScene(new Scene (root));
-    		stage.show();
+    		Scene scene = new Scene(root);
+    		stage.setScene(scene);
+            stage.setTitle("Kauã");
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
+    	
+    }
+    
+    public void Voltar(){
+    	
+    	btnVoltar.getScene().getWindow().hide();
     	
     }
     
