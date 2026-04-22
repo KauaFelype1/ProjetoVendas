@@ -1,34 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.SistemaController">
-   <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-      <MenuBar prefWidth="600.0" StackPane.alignment="TOP_CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="Inicio">
-            <items>
-              <MenuItem fx:id="itemSair" mnemonicParsing="false" onAction="#Sair" text="Sair" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Cadastros">
-            <items>
-              <MenuItem fx:id="ItemProduto" mnemonicParsing="false" onAction="#AbrirCadastroProuto" text="Produtos" />
-                  <MenuItem fx:id="itemCliente" mnemonicParsing="false" onAction="#AbrirCadastroClientes" text="Cliente" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Operações">
-            <items>
-              <MenuItem fx:id="itemProcessaEstoque" mnemonicParsing="false" onAction="#AbrirProcessarEstoque" text="Processar Estoque" />
-                  <MenuItem fx:id="itemVendas" mnemonicParsing="false" onAction="#AbrirVendas" text="Vendas" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </children>
+<StackPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: #0f1120;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.SistemaController">
+    <children>
+
+        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <left>
+                <VBox maxHeight="1.7976931348623157E308" prefWidth="220.0" style="-fx-background-color: #1a1f36;">
+
+                    <!-- Logo -->
+                    <VBox style="-fx-padding: 24 20 20 20;                                  -fx-border-color: #252b4a;                                  -fx-border-width: 0 0 1 0;">
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;                                       -fx-text-fill: #c5c8e8;" text="TradeSystem" />
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #6b7099;                                       -fx-padding: 2 0 0 0;" text="Painel de Controle" />
+                    </VBox>
+
+                    <!-- Navegação -->
+                    <VBox style="-fx-padding: 16 0 0 0;" VBox.vgrow="ALWAYS">
+
+                        <!-- Grupo: Principal -->
+                        <Label style="-fx-font-size: 10px; -fx-font-weight: bold;                                       -fx-text-fill: #6b7099; -fx-padding: 8 20 4 20;                                       -fx-letter-spacing: 1.5px;" text="PRINCIPAL" />
+                        <HBox fx:id="navInicio" style="-fx-padding: 10 20 10 20; -fx-spacing: 10;                                      -fx-alignment: CENTER_LEFT; -fx-cursor: hand;                                      -fx-background-color: #252b4a;                                      -fx-border-color: #534AB7 transparent transparent transparent;                                      -fx-border-width: 0 0 0 3;" styleClass="nav-item-ativo">
+                            <Label style="-fx-font-size: 14px; -fx-text-fill: #a09cff;" text="⊞" textFill="WHITE" />
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: #a09cff;" text="Início" />
+                        </HBox>
+
+                        <!-- Grupo: Cadastros -->
+                        <Label style="-fx-font-size: 10px; -fx-font-weight: bold;                                       -fx-text-fill: #6b7099; -fx-padding: 16 20 4 20;" text="CADASTROS" />
+                        <HBox fx:id="navProdutos" onMouseClicked="#AbrirCadastroProuto" style="-fx-padding: 10 20 10 20; -fx-spacing: 10;                                      -fx-alignment: CENTER_LEFT; -fx-cursor: hand;                                      -fx-border-width: 0 0 0 3;                                      -fx-border-color: transparent;">
+                            <Label style="-fx-font-size: 13px;" text="📦" textFill="WHITE" />
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: #8891bb;" text="Produtos" />
+                        </HBox>
+                        <HBox fx:id="navClientes" onMouseClicked="#AbrirCadastroClientes" style="-fx-padding: 10 20 10 20; -fx-spacing: 10;                                      -fx-alignment: CENTER_LEFT; -fx-cursor: hand;                                      -fx-border-width: 0 0 0 3;                                      -fx-border-color: transparent;">
+                            <Label style="-fx-font-size: 13px;" text="👤" textFill="WHITE" />
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: #8891bb;" text="Clientes" />
+                        </HBox>
+
+                        <!-- Grupo: Operações -->
+                        <Label style="-fx-font-size: 10px; -fx-font-weight: bold;                                       -fx-text-fill: #6b7099; -fx-padding: 16 20 4 20;" text="OPERAÇÕES" />
+                        <HBox fx:id="navEstoque" onMouseClicked="#AbrirProcessarEstoque" style="-fx-padding: 10 20 10 20; -fx-spacing: 10;                                      -fx-alignment: CENTER_LEFT; -fx-cursor: hand;                                      -fx-border-width: 0 0 0 3;                                      -fx-border-color: transparent;">
+                            <Label style="-fx-font-size: 13px;" text="📋" textFill="WHITE" />
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: #8891bb;" text="Processar Estoque" />
+                        </HBox>
+                        <HBox fx:id="navVendas" onMouseClicked="#AbrirVendas" style="-fx-padding: 10 20 10 20; -fx-spacing: 10;                                      -fx-alignment: CENTER_LEFT; -fx-cursor: hand;                                      -fx-border-width: 0 0 0 3;                                      -fx-border-color: transparent;">
+                            <Label style="-fx-font-size: 13px;" text="💰" textFill="WHITE" />
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: #8891bb;" text="Vendas" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Botão Sair -->
+                    <HBox onMouseClicked="#Sair" style="-fx-padding: 16 20 16 20; -fx-spacing: 10;                                  -fx-alignment: CENTER_LEFT; -fx-cursor: hand;                                  -fx-border-color: #252b4a; -fx-border-width: 1 0 0 0;">
+                        <Label style="-fx-font-size: 13px; -fx-text-fill: #6b7099;" text="✕" textFill="WHITE" />
+                        <Label style="-fx-font-size: 13px; -fx-text-fill: #6b7099;" text="Sair" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                    </HBox>
+
+                </VBox>
+            </left>
+
+            <!-- ═══════════════ ÁREA PRINCIPAL ═══════════════ -->
+            <center>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f1120;">
+
+                    <!-- Topbar -->
+                    <HBox prefHeight="56.0" style="-fx-background-color: #13192e;                                  -fx-border-color: #1e2540;                                  -fx-border-width: 0 0 1 0;                                  -fx-padding: 0 28 0 28;                                  -fx-alignment: CENTER_LEFT;                                  -fx-spacing: 10;">
+                        <Label fx:id="lblPaginaTitulo" style="-fx-font-size: 15px; -fx-font-weight: bold;                                       -fx-text-fill: #c5c8e8;" text="Início" />
+                        <Label style="-fx-text-fill: #3a4060; -fx-font-size: 16px;" text="›" />
+                        <Label fx:id="lblPaginaSub" style="-fx-font-size: 13px; -fx-text-fill: #6b7099;" text="Visão Geral" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lblUsuario" style="-fx-background-color: #534AB7;                                       -fx-background-radius: 50%;                                       -fx-min-width: 32; -fx-min-height: 32;                                       -fx-max-width: 32; -fx-max-height: 32;                                       -fx-font-size: 12px; -fx-font-weight: bold;                                       -fx-text-fill: white;                                       -fx-alignment: CENTER;" text="U" />
+                    </HBox>
+
+                    <!-- Conteúdo com ScrollPane -->
+                    <ScrollPane fitToWidth="true" style="-fx-background: #0f1120;                                        -fx-background-color: #0f1120;                                        -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                        <content>
+                            <VBox fx:id="areaConteudo" style="-fx-padding: 28; -fx-spacing: 20;                                          -fx-background-color: #0f1120;">
+
+                                <!-- Cards de Estatísticas -->
+                                <HBox spacing="16.0">
+                                    <!-- Card Produtos -->
+                                    <VBox style="-fx-background-color: #1a1f36;                                                  -fx-background-radius: 12;                                                  -fx-border-color: #252b4a;                                                  -fx-border-radius: 12;                                                  -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 11px; -fx-font-weight: bold;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 0 0 8 0;" text="PRODUTOS" />
+                                        <Label fx:id="lblQtdProdutos" style="-fx-font-size: 26px; -fx-font-weight: bold;                                                       -fx-text-fill: #c5c8e8;" text="—" />
+                                        <Label style="-fx-font-size: 11px;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 4 0 0 0;" text="cadastrados" />
+                                    </VBox>
+                                    <!-- Card Clientes -->
+                                    <VBox style="-fx-background-color: #1a1f36;                                                  -fx-background-radius: 12;                                                  -fx-border-color: #252b4a;                                                  -fx-border-radius: 12;                                                  -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 11px; -fx-font-weight: bold;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 0 0 8 0;" text="CLIENTES" />
+                                        <Label fx:id="lblQtdClientes" style="-fx-font-size: 26px; -fx-font-weight: bold;                                                       -fx-text-fill: #c5c8e8;" text="—" />
+                                        <Label style="-fx-font-size: 11px;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 4 0 0 0;" text="registrados" />
+                                    </VBox>
+                                    <!-- Card Estoque -->
+                                    <VBox style="-fx-background-color: #1a1f36;                                                  -fx-background-radius: 12;                                                  -fx-border-color: #252b4a;                                                  -fx-border-radius: 12;                                                  -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 11px; -fx-font-weight: bold;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 0 0 8 0;" text="ESTOQUE" />
+                                        <Label fx:id="lblQtdEstoque" style="-fx-font-size: 26px; -fx-font-weight: bold;                                                       -fx-text-fill: #c5c8e8;" text="—" />
+                                        <Label style="-fx-font-size: 11px;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 4 0 0 0;" text="unidades" />
+                                    </VBox>
+                                    <!-- Card Vendas -->
+                                    <VBox style="-fx-background-color: #1a1f36;                                                  -fx-background-radius: 12;                                                  -fx-border-color: #252b4a;                                                  -fx-border-radius: 12;                                                  -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 11px; -fx-font-weight: bold;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 0 0 8 0;" text="VENDAS" />
+                                        <Label fx:id="lblQtdVendas" style="-fx-font-size: 26px; -fx-font-weight: bold;                                                       -fx-text-fill: #c5c8e8;" text="—" />
+                                        <Label style="-fx-font-size: 11px;                                                       -fx-text-fill: #6b7099;                                                       -fx-padding: 4 0 0 0;" text="este mês" />
+                                    </VBox>
+                                </HBox>
+
+                                <!-- Painel Acesso Rápido -->
+                                <VBox style="-fx-background-color: #1a1f36;                                              -fx-background-radius: 12;                                              -fx-border-color: #252b4a;                                              -fx-border-radius: 12;">
+                                    <HBox style="-fx-padding: 16 20 16 20;                                                  -fx-border-color: #252b4a;                                                  -fx-border-width: 0 0 1 0;                                                  -fx-alignment: CENTER_LEFT;">
+                                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold;                                                       -fx-text-fill: #c5c8e8;" text="Acesso Rápido" />
+                                    </HBox>
+                                    <HBox spacing="16.0" style="-fx-padding: 20;">
+                                        <!-- Atalho Produtos -->
+                                        <VBox onMouseClicked="#AbrirCadastroProuto" spacing="8" style="-fx-background-color: #252b4a;                                                      -fx-background-radius: 10;                                                      -fx-padding: 16;                                                      -fx-cursor: hand;                                                      -fx-alignment: CENTER;" HBox.hgrow="ALWAYS">
+                                            <Label style="-fx-font-size: 24px;                                                           -fx-alignment: CENTER;" text="📦" />
+                                            <Label style="-fx-font-size: 13px; -fx-font-weight: bold;                                                           -fx-text-fill: #c5c8e8;                                                           -fx-alignment: CENTER;" text="Produtos" />
+                                            <Label style="-fx-font-size: 11px;                                                           -fx-text-fill: #6b7099;                                                           -fx-alignment: CENTER;" text="Cadastrar novo" />
+                                        </VBox>
+                                        <!-- Atalho Clientes -->
+                                        <VBox onMouseClicked="#AbrirCadastroClientes" spacing="8" style="-fx-background-color: #252b4a;                                                      -fx-background-radius: 10;                                                      -fx-padding: 16;                                                      -fx-cursor: hand;                                                      -fx-alignment: CENTER;" HBox.hgrow="ALWAYS">
+                                            <Label style="-fx-font-size: 24px;                                                           -fx-alignment: CENTER;" text="👤" />
+                                            <Label style="-fx-font-size: 13px; -fx-font-weight: bold;                                                           -fx-text-fill: #c5c8e8;                                                           -fx-alignment: CENTER;" text="Clientes" />
+                                            <Label style="-fx-font-size: 11px;                                                           -fx-text-fill: #6b7099;                                                           -fx-alignment: CENTER;" text="Cadastrar novo" />
+                                        </VBox>
+                                        <!-- Atalho Estoque -->
+                                        <VBox onMouseClicked="#AbrirProcessarEstoque" spacing="8" style="-fx-background-color: #252b4a;                                                      -fx-background-radius: 10;                                                      -fx-padding: 16;                                                      -fx-cursor: hand;                                                      -fx-alignment: CENTER;" HBox.hgrow="ALWAYS">
+                                            <Label style="-fx-font-size: 24px;                                                           -fx-alignment: CENTER;" text="📋" />
+                                            <Label style="-fx-font-size: 13px; -fx-font-weight: bold;                                                           -fx-text-fill: #c5c8e8;                                                           -fx-alignment: CENTER;" text="Estoque" />
+                                            <Label style="-fx-font-size: 11px;                                                           -fx-text-fill: #6b7099;                                                           -fx-alignment: CENTER;" text="Processar entrada/saída" />
+                                        </VBox>
+                                        <!-- Atalho Vendas -->
+                                        <VBox onMouseClicked="#AbrirVendas" spacing="8" style="-fx-background-color: #252b4a;                                                      -fx-background-radius: 10;                                                      -fx-padding: 16;                                                      -fx-cursor: hand;                                                      -fx-alignment: CENTER;" HBox.hgrow="ALWAYS">
+                                            <Label style="-fx-font-size: 24px;                                                           -fx-alignment: CENTER;" text="💰" />
+                                            <Label style="-fx-font-size: 13px; -fx-font-weight: bold;                                                           -fx-text-fill: #c5c8e8;                                                           -fx-alignment: CENTER;" text="Vendas" />
+                                            <Label style="-fx-font-size: 11px;                                                           -fx-text-fill: #6b7099;                                                           -fx-alignment: CENTER;" text="Registrar nova venda" />
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+
+                </VBox>
+            </center>
+
+        </BorderPane>
+    </children>
 </StackPane>

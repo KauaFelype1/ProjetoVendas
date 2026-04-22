@@ -81,6 +81,9 @@ public class CadastroProdutoController {
     @FXML
     private TableView<ProdutoModel> tabProduto;
     
+    @FXML
+    private Button btnVoltar;
+    
     private ObservableList<ProdutoModel> listaProdutos;
     
     ProdutoModel produto = new ProdutoModel(0, null, null, null, 0, 0, null, 0);
@@ -200,6 +203,8 @@ public class CadastroProdutoController {
     // A PALAVRA FXML É RESERVADA DO JAVAFX PARA REALIZAR A INTERAÇÃO
     @FXML
     public void initialize() {
+    	
+    	btnVoltar.setOnAction(e -> txtNome.getScene().getWindow().hide());
     	
     	txtCode.setText(ProdutoModel.gerarEAN13());
     	

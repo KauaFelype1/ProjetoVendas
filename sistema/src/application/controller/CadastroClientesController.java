@@ -60,6 +60,9 @@ public class CadastroClientesController {
     @FXML
     private TextField txtSenha;
     
+    @FXML
+    private Button btnVoltar;
+    
     ClienteModel cliente = new ClienteModel(0, null, null, null, null, null);
     
     public void salvar() {
@@ -100,6 +103,8 @@ public class CadastroClientesController {
     
     @FXML
     public void initialize() {
+    	
+    	btnVoltar.setOnAction(e->{Voltar();});
     	
     	txtNome.setOnAction(e->{txtCPF.requestFocus();});
     	txtCPF.setOnAction(e->{txtEmail.requestFocus();});
@@ -142,11 +147,20 @@ public class CadastroClientesController {
     		Stage stage = new Stage();
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
-    		stage.show();
+            stage.setTitle("Kauã");
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
     		
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
+    	
+    }
+    
+    public void Voltar(){
+    	
+    	txtNome.getScene().getWindow().hide();
     	
     }
     

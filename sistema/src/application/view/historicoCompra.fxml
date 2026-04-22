@@ -1,34 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.HistoricoCompraController">
-   <children>
-      <TableView fx:id="tabCompra" layoutX="209.0" layoutY="186.0" prefHeight="218.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <columns>
-          <TableColumn fx:id="colIdCompra" prefWidth="70.39998704195023" text="Id Compra" />
-          <TableColumn fx:id="colIdCliente" prefWidth="76.79999160766602" text="Id Cliente" />
-            <TableColumn fx:id="ColProduto" prefWidth="175.2000274658203" text="Nome do Produto" />
-            <TableColumn fx:id="colQuantidade" prefWidth="116.0" text="Quantidade" />
-            <TableColumn fx:id="colPreco" prefWidth="134.39996337890625" text="Preço" />
-            <TableColumn fx:id="colDataCompra" prefWidth="202.39996337890625" text="Data da Compra" />
-        </columns>
-      </TableView>
-      <Label layoutX="285.0" layoutY="14.0" text="Historico de Compras">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="366.0" layoutY="156.0" text="Cliente">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtNome" disable="true" editable="false" layoutX="227.0" layoutY="186.0" prefHeight="26.0" prefWidth="318.0" />
-   </children>
-</AnchorPane>
+<StackPane
+    maxHeight="1.7976931348623157E308"
+    maxWidth="1.7976931348623157E308"
+    style="-fx-background-color: #0f1120;"
+    stylesheets="@../login.css"
+    xmlns="http://javafx.com/javafx/25"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="application.controller.HistoricoCompraController">
+
+    <children>
+
+        <BorderPane
+            maxHeight="1.7976931348623157E308"
+            maxWidth="1.7976931348623157E308"
+            style="-fx-background-color: #0f1120;">
+
+            <top>
+                <VBox style="-fx-background-color: #0f1120; -fx-padding: 28 48 0 48; -fx-spacing: 10;">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Button fx:id="btnVoltar"
+                                onAction="#voltar"
+                                text="← Voltar"
+                                prefHeight="32"
+                                style="-fx-background-color: transparent;
+                                       -fx-background-radius: 7;
+                                       -fx-border-color: #2a3156;
+                                       -fx-border-radius: 7;
+                                       -fx-border-width: 1.5;
+                                       -fx-text-fill: #8891bb;
+                                       -fx-font-size: 12px;
+                                       -fx-cursor: hand;
+                                       -fx-padding: 0 14 0 14;" />
+                        <Label text="Clientes"
+                               style="-fx-font-size: 12px; -fx-text-fill: #6b7099;" />
+                        <Label text="›"
+                               style="-fx-font-size: 13px; -fx-text-fill: #3a4060;" />
+                        <Label text="Histórico"
+                               style="-fx-font-size: 12px; -fx-text-fill: #534AB7; -fx-font-weight: bold;" />
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="0" style="-fx-padding: 6 0 0 0;">
+                        <Label text="Histórico"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #c5c8e8;" />
+                        <Label text=" de Compras"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #534AB7;" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Label text="Registro de todas as compras do cliente"
+                               style="-fx-font-size: 13px; -fx-text-fill: #6b7099;" />
+                    </HBox>
+
+                    <Region prefHeight="1"
+                            maxWidth="1.7976931348623157E308"
+                            style="-fx-background-color: #1e2540;"
+                            VBox.vgrow="NEVER">
+                        <VBox.margin><Insets top="10" /></VBox.margin>
+                    </Region>
+                </VBox>
+            </top>
+
+            <center>
+                <VBox
+                    maxHeight="1.7976931348623157E308"
+                    maxWidth="1.7976931348623157E308"
+                    VBox.vgrow="ALWAYS"
+                    style="-fx-padding: 24 48 36 48; -fx-spacing: 20; -fx-background-color: #0f1120;">
+
+                    <HBox spacing="24" alignment="CENTER_LEFT"
+                          style="-fx-background-color: #1a1f36;
+                                 -fx-background-radius: 14;
+                                 -fx-border-color: #252b4a;
+                                 -fx-border-radius: 14;
+                                 -fx-padding: 20 28 20 28;">
+                        <VBox spacing="4">
+                            <Label text="CLIENTE"
+                                   style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                            <TextField fx:id="txtNome"
+                                       disable="true"
+                                       editable="false"
+                                       prefWidth="340"
+                                       style="-fx-background-color: #0a0d1e;
+                                              -fx-background-radius: 9;
+                                              -fx-border-color: #1e2340;
+                                              -fx-border-radius: 9;
+                                              -fx-border-width: 1.5;
+                                              -fx-text-fill: #c5c8e8;
+                                              -fx-font-size: 14px;
+                                              -fx-font-weight: bold;
+                                              -fx-pref-height: 44px;
+                                              -fx-padding: 0 16 0 16;" />
+                        </VBox>
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <VBox spacing="4" alignment="CENTER_RIGHT">
+                            <Label text="TOTAL DE REGISTROS"
+                                   style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                            <Label fx:id="lblTotalRegistros" text="—"
+                                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #534AB7;" />
+                        </VBox>
+                    </HBox>
+
+                    <VBox VBox.vgrow="ALWAYS"
+                          style="-fx-background-color: #1a1f36;
+                                 -fx-background-radius: 14;
+                                 -fx-border-color: #252b4a;
+                                 -fx-border-radius: 14;">
+
+                        <HBox alignment="CENTER_LEFT"
+                              style="-fx-padding: 18 28 18 28;
+                                     -fx-border-color: transparent transparent #252b4a transparent;
+                                     -fx-border-width: 0 0 1 0;">
+                            <Label text="Compras Registradas"
+                                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #c5c8e8;" />
+                        </HBox>
+
+                        <TableView fx:id="tabCompra"
+                                   VBox.vgrow="ALWAYS"
+                                   styleClass="tabela-sistema"
+                                   style="-fx-background-color: transparent;
+                                          -fx-control-inner-background: #1a1f36;
+                                          -fx-control-inner-background-alt: #1d2239;
+                                          -fx-table-cell-border-color: #1e2540;
+                                          -fx-border-color: transparent;
+                                          -fx-text-fill: #c5c8e8;
+                                          -fx-font-size: 13px;">
+                            <columns>
+                                <TableColumn fx:id="colIdCompra" text="ID Compra" prefWidth="110"
+                                             style="-fx-alignment: CENTER;" />
+                                <TableColumn fx:id="colIdCliente" text="ID Cliente" prefWidth="110"
+                                             style="-fx-alignment: CENTER;" />
+                                <TableColumn fx:id="ColProduto" text="Produto" prefWidth="260" />
+                                <TableColumn fx:id="colQuantidade" text="Quantidade" prefWidth="130"
+                                             style="-fx-alignment: CENTER;" />
+                                <TableColumn fx:id="colPreco" text="Preço" prefWidth="150"
+                                             style="-fx-alignment: CENTER_RIGHT;" />
+                                <TableColumn fx:id="colDataCompra" text="Data da Compra" prefWidth="200"
+                                             style="-fx-alignment: CENTER;" />
+                            </columns>
+                            <placeholder>
+                                <Label text="Nenhuma compra registrada para este cliente."
+                                       style="-fx-text-fill: #6b7099; -fx-font-size: 13px;" />
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </center>
+
+        </BorderPane>
+
+    </children>
+</StackPane>

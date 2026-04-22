@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
@@ -7,77 +8,358 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.UpdateClienteController">
-   <children>
-      <TableView fx:id="tabClientes" layoutX="209.0" layoutY="177.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <columns>
-          <TableColumn fx:id="colId" prefWidth="67.20001220703125" text="Id" />
-          <TableColumn fx:id="colNome" prefWidth="153.5999755859375" text="Nome" />
-            <TableColumn fx:id="colCpf" prefWidth="156.800048828125" text="CPF" />
-            <TableColumn fx:id="colEmail" prefWidth="159.99993896484375" text="Email" />
-            <TableColumn fx:id="colSenha" prefWidth="120.79998779296875" text="Senha" />
-            <TableColumn fx:id="colStatus" prefWidth="103.199951171875" text="Status" />
-        </columns>
-      </TableView>
-      <Label layoutX="224.0" layoutY="14.0" text="Alteração de Dados do Cliente">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtCpf" disable="true" editable="false" layoutX="383.0" layoutY="168.0" promptText="CPF do Cliente" />
-      <TextField fx:id="txtNome" layoutX="183.0" layoutY="168.0" prefHeight="26.0" prefWidth="170.0" promptText="Nome do Cliente" />
-      <TextField fx:id="txtId" disable="true" editable="false" layoutX="66.0" layoutY="168.0" prefHeight="26.0" prefWidth="86.0" promptText="Id" />
-      <TextField fx:id="txtSenha" layoutX="244.0" layoutY="245.0" promptText="Senha" />
-      <TextField fx:id="txtEmail" disable="true" editable="false" layoutX="66.0" layoutY="245.0" promptText="Email do Cliente" />
-      <TextField fx:id="txtBuscar" layoutX="62.0" layoutY="98.0" prefHeight="26.0" prefWidth="474.0" promptText="Informe CPF, Nome ou Email" />
-      <Label layoutX="66.0" layoutY="141.0" text="Id">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="191.0" layoutY="141.0" text="Nome">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="383.0" layoutY="141.0" text="CPF">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="66.0" layoutY="220.0" text="Email">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="244.0" layoutY="220.0" text="Senha">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <MenuButton fx:id="MenuStatus" layoutX="425.0" layoutY="245.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" text="Status do Cliente">
-        <items>
-          <MenuItem fx:id="itemAtivo" mnemonicParsing="false" text="Ativo" />
-          <MenuItem fx:id="itemInativo" mnemonicParsing="false" text="Inativo" />
-        </items>
-      </MenuButton>
-      <Label layoutX="425.0" layoutY="220.0" text="Status">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnConfirmar" layoutX="604.0" layoutY="245.0" mnemonicParsing="false" onAction="#Modificar" text="Confirmar" />
-      <Button fx:id="btnExcluir" layoutX="686.0" layoutY="245.0" mnemonicParsing="false" onAction="#excluir" text="Excluir" />
-      <Button fx:id="btnHistorico" layoutX="604.0" layoutY="207.0" mnemonicParsing="false" onAction="#abrirHistorico" text="Abrir Histórico" />
-      <Button fx:id="btnBuscar" layoutX="552.0" layoutY="98.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
-      <Label layoutX="61.0" layoutY="80.0" text="Buscar Cliente">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnVoltar" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#voltar" text="Voltar" />
-   </children>
-</AnchorPane>
+<StackPane
+    maxHeight="1.7976931348623157E308"
+    maxWidth="1.7976931348623157E308"
+    style="-fx-background-color: #0f1120;"
+    stylesheets="@../login.css"
+    xmlns="http://javafx.com/javafx/25"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="application.controller.UpdateClienteController">
+
+    <children>
+
+        <BorderPane
+            maxHeight="1.7976931348623157E308"
+            maxWidth="1.7976931348623157E308"
+            style="-fx-background-color: #0f1120;">
+
+            <top>
+                <VBox style="-fx-background-color: #0f1120; -fx-padding: 28 48 0 48; -fx-spacing: 10;">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Button fx:id="btnVoltar"
+                                onAction="#voltar"
+                                text="← Voltar"
+                                prefHeight="32"
+                                style="-fx-background-color: transparent;
+                                       -fx-background-radius: 7;
+                                       -fx-border-color: #2a3156;
+                                       -fx-border-radius: 7;
+                                       -fx-border-width: 1.5;
+                                       -fx-text-fill: #8891bb;
+                                       -fx-font-size: 12px;
+                                       -fx-cursor: hand;
+                                       -fx-padding: 0 14 0 14;" />
+                        <Label text="Cadastros"
+                               style="-fx-font-size: 12px; -fx-text-fill: #6b7099;" />
+                        <Label text="›"
+                               style="-fx-font-size: 13px; -fx-text-fill: #3a4060;" />
+                        <Label text="Clientes"
+                               style="-fx-font-size: 12px; -fx-text-fill: #6b7099;" />
+                        <Label text="›"
+                               style="-fx-font-size: 13px; -fx-text-fill: #3a4060;" />
+                        <Label text="Alterar"
+                               style="-fx-font-size: 12px; -fx-text-fill: #534AB7; -fx-font-weight: bold;" />
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="0" style="-fx-padding: 6 0 0 0;">
+                        <Label text="Alteração"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #c5c8e8;" />
+                        <Label text=" de Clientes"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #534AB7;" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Label text="Selecione um cliente na tabela ou busque pelo CPF, nome ou email"
+                               style="-fx-font-size: 13px; -fx-text-fill: #6b7099;" />
+                    </HBox>
+
+                    <Region prefHeight="1"
+                            maxWidth="1.7976931348623157E308"
+                            style="-fx-background-color: #1e2540;"
+                            VBox.vgrow="NEVER">
+                        <VBox.margin><Insets top="10" /></VBox.margin>
+                    </Region>
+                </VBox>
+            </top>
+
+            <center>
+                <VBox
+                    maxHeight="1.7976931348623157E308"
+                    maxWidth="1.7976931348623157E308"
+                    VBox.vgrow="ALWAYS"
+                    style="-fx-padding: 24 48 36 48; -fx-spacing: 20; -fx-background-color: #0f1120;">
+
+                    <VBox
+                        style="-fx-background-color: #1a1f36;
+                               -fx-background-radius: 14;
+                               -fx-border-color: #252b4a;
+                               -fx-border-radius: 14;
+                               -fx-padding: 28 32 28 32;
+                               -fx-spacing: 20;">
+
+                        <HBox alignment="CENTER_LEFT" spacing="16">
+                            <VBox spacing="7" HBox.hgrow="ALWAYS">
+                                <Label text="BUSCAR CLIENTE"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <HBox spacing="10" alignment="CENTER_LEFT">
+                                    <TextField fx:id="txtBuscar"
+                                               promptText="Informe CPF, Nome ou Email"
+                                               HBox.hgrow="ALWAYS"
+                                               style="-fx-background-color: #0d1028;
+                                                      -fx-background-radius: 9;
+                                                      -fx-border-color: #252b4a;
+                                                      -fx-border-radius: 9;
+                                                      -fx-border-width: 1.5;
+                                                      -fx-text-fill: #c5c8e8;
+                                                      -fx-prompt-text-fill: #3a4060;
+                                                      -fx-font-size: 13px;
+                                                      -fx-pref-height: 48px;
+                                                      -fx-padding: 0 16 0 16;" />
+                                    <Button fx:id="btnBuscar"
+                                            onAction="#buscar"
+                                            text="Buscar"
+                                            prefHeight="48"
+                                            prefWidth="120"
+                                            style="-fx-background-color: #252b4a;
+                                                   -fx-background-radius: 9;
+                                                   -fx-text-fill: #c5c8e8;
+                                                   -fx-font-size: 13px;
+                                                   -fx-font-weight: bold;
+                                                   -fx-cursor: hand;" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+
+                        <Region prefHeight="1"
+                                maxWidth="1.7976931348623157E308"
+                                style="-fx-background-color: #252b4a;" />
+
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label text="Dados do Cliente"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #c5c8e8;" />
+                            <Label text="— edite os campos e confirme"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #6b7099;" />
+                        </HBox>
+
+                        <GridPane hgap="16" vgap="0" maxWidth="1.7976931348623157E308">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="22" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="18" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="22" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="16" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="12" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="NEVER" />
+                            </rowConstraints>
+
+                            <VBox spacing="7" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="ID"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <TextField fx:id="txtId"
+                                           disable="true"
+                                           editable="false"
+                                           promptText="Id"
+                                           maxWidth="1.7976931348623157E308"
+                                           style="-fx-background-color: #0a0d1e;
+                                                  -fx-background-radius: 9;
+                                                  -fx-border-color: #1e2340;
+                                                  -fx-border-radius: 9;
+                                                  -fx-border-width: 1.5;
+                                                  -fx-text-fill: #6b7099;
+                                                  -fx-prompt-text-fill: #3a4060;
+                                                  -fx-font-size: 13px;
+                                                  -fx-pref-height: 48px;
+                                                  -fx-padding: 0 16 0 16;" />
+                            </VBox>
+
+                            <VBox spacing="7" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="NOME"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <TextField fx:id="txtNome"
+                                           promptText="Nome do Cliente"
+                                           maxWidth="1.7976931348623157E308"
+                                           style="-fx-background-color: #0d1028;
+                                                  -fx-background-radius: 9;
+                                                  -fx-border-color: #252b4a;
+                                                  -fx-border-radius: 9;
+                                                  -fx-border-width: 1.5;
+                                                  -fx-text-fill: #c5c8e8;
+                                                  -fx-prompt-text-fill: #3a4060;
+                                                  -fx-font-size: 13px;
+                                                  -fx-pref-height: 48px;
+                                                  -fx-padding: 0 16 0 16;" />
+                            </VBox>
+
+                            <VBox spacing="7" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <Label text="CPF"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <TextField fx:id="txtCpf"
+                                           disable="true"
+                                           editable="false"
+                                           promptText="CPF do Cliente"
+                                           maxWidth="1.7976931348623157E308"
+                                           style="-fx-background-color: #0a0d1e;
+                                                  -fx-background-radius: 9;
+                                                  -fx-border-color: #1e2340;
+                                                  -fx-border-radius: 9;
+                                                  -fx-border-width: 1.5;
+                                                  -fx-text-fill: #6b7099;
+                                                  -fx-prompt-text-fill: #3a4060;
+                                                  -fx-font-size: 13px;
+                                                  -fx-pref-height: 48px;
+                                                  -fx-padding: 0 16 0 16;" />
+                            </VBox>
+
+                            <VBox spacing="7" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                                <Label text="EMAIL"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <TextField fx:id="txtEmail"
+                                           disable="true"
+                                           editable="false"
+                                           promptText="Email do Cliente"
+                                           maxWidth="1.7976931348623157E308"
+                                           style="-fx-background-color: #0a0d1e;
+                                                  -fx-background-radius: 9;
+                                                  -fx-border-color: #1e2340;
+                                                  -fx-border-radius: 9;
+                                                  -fx-border-width: 1.5;
+                                                  -fx-text-fill: #6b7099;
+                                                  -fx-prompt-text-fill: #3a4060;
+                                                  -fx-font-size: 13px;
+                                                  -fx-pref-height: 48px;
+                                                  -fx-padding: 0 16 0 16;" />
+                            </VBox>
+
+                            <VBox spacing="7" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                                <Label text="SENHA"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <TextField fx:id="txtSenha"
+                                           promptText="Senha"
+                                           maxWidth="1.7976931348623157E308"
+                                           style="-fx-background-color: #0d1028;
+                                                  -fx-background-radius: 9;
+                                                  -fx-border-color: #252b4a;
+                                                  -fx-border-radius: 9;
+                                                  -fx-border-width: 1.5;
+                                                  -fx-text-fill: #c5c8e8;
+                                                  -fx-prompt-text-fill: #3a4060;
+                                                  -fx-font-size: 13px;
+                                                  -fx-pref-height: 48px;
+                                                  -fx-padding: 0 16 0 16;" />
+                            </VBox>
+
+                            <VBox spacing="7" GridPane.columnIndex="5" GridPane.rowIndex="0">
+                                <Label text="STATUS"
+                                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #6b7099;" />
+                                <MenuButton fx:id="MenuStatus"
+                                            text="Status"
+                                            maxWidth="1.7976931348623157E308"
+                                            prefHeight="48"
+                                            style="-fx-background-color: #0d1028;
+                                                   -fx-background-radius: 9;
+                                                   -fx-border-color: #252b4a;
+                                                   -fx-border-radius: 9;
+                                                   -fx-border-width: 1.5;
+                                                   -fx-text-fill: #c5c8e8;
+                                                   -fx-font-size: 13px;">
+                                    <items>
+                                        <MenuItem fx:id="itemAtivo" mnemonicParsing="false" text="Ativo" />
+                                        <MenuItem fx:id="itemInativo" mnemonicParsing="false" text="Inativo" />
+                                    </items>
+                                </MenuButton>
+                            </VBox>
+                        </GridPane>
+
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Button fx:id="btnConfirmar"
+                                    onAction="#Modificar"
+                                    text="Confirmar Alteração"
+                                    prefHeight="44"
+                                    prefWidth="190"
+                                    style="-fx-background-color: #534AB7;
+                                           -fx-background-radius: 9;
+                                           -fx-text-fill: white;
+                                           -fx-font-size: 13px;
+                                           -fx-font-weight: bold;
+                                           -fx-cursor: hand;" />
+                            <Button fx:id="btnHistorico"
+                                    onAction="#abrirHistorico"
+                                    text="Abrir Histórico"
+                                    prefHeight="44"
+                                    prefWidth="160"
+                                    style="-fx-background-color: transparent;
+                                           -fx-background-radius: 9;
+                                           -fx-border-color: #2a3156;
+                                           -fx-border-radius: 9;
+                                           -fx-border-width: 1.5;
+                                           -fx-text-fill: #8891bb;
+                                           -fx-font-size: 13px;
+                                           -fx-cursor: hand;" />
+                            <Pane HBox.hgrow="ALWAYS" />
+                            <Button fx:id="btnExcluir"
+                                    onAction="#excluir"
+                                    text="Excluir Cliente"
+                                    prefHeight="44"
+                                    prefWidth="160"
+                                    style="-fx-background-color: transparent;
+                                           -fx-background-radius: 9;
+                                           -fx-border-color: #4a1e2a;
+                                           -fx-border-radius: 9;
+                                           -fx-border-width: 1.5;
+                                           -fx-text-fill: #c06070;
+                                           -fx-font-size: 13px;
+                                           -fx-cursor: hand;" />
+                        </HBox>
+                    </VBox>
+
+                    <VBox VBox.vgrow="ALWAYS"
+                          style="-fx-background-color: #1a1f36;
+                                 -fx-background-radius: 14;
+                                 -fx-border-color: #252b4a;
+                                 -fx-border-radius: 14;">
+
+                        <HBox alignment="CENTER_LEFT"
+                              style="-fx-padding: 18 28 18 28;
+                                     -fx-border-color: transparent transparent #252b4a transparent;
+                                     -fx-border-width: 0 0 1 0;">
+                            <Label text="Clientes"
+                                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #c5c8e8;" />
+                            <Label text=" — clique em um registro para selecionar"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #6b7099;" />
+                        </HBox>
+
+                        <TableView fx:id="tabClientes"
+                                   VBox.vgrow="ALWAYS"
+                                   styleClass="tabela-sistema"
+                                   style="-fx-background-color: transparent;
+                                          -fx-control-inner-background: #1a1f36;
+                                          -fx-control-inner-background-alt: #1d2239;
+                                          -fx-table-cell-border-color: #1e2540;
+                                          -fx-border-color: transparent;
+                                          -fx-text-fill: #c5c8e8;
+                                          -fx-font-size: 13px;">
+                            <columns>
+                                <TableColumn fx:id="colId" text="ID" prefWidth="80"
+                                             style="-fx-alignment: CENTER;" />
+                                <TableColumn fx:id="colNome" text="Nome" prefWidth="220" />
+                                <TableColumn fx:id="colCpf" text="CPF" prefWidth="170" />
+                                <TableColumn fx:id="colEmail" text="Email" prefWidth="240" />
+                                <TableColumn fx:id="colSenha" text="Senha" prefWidth="160" />
+                                <TableColumn fx:id="colStatus" text="Status" prefWidth="130"
+                                             style="-fx-alignment: CENTER;" />
+                            </columns>
+                            <placeholder>
+                                <Label text="Nenhum cliente encontrado."
+                                       style="-fx-text-fill: #6b7099; -fx-font-size: 13px;" />
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </center>
+
+        </BorderPane>
+
+    </children>
+</StackPane>

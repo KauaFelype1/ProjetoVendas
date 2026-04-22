@@ -225,7 +225,10 @@ public class UpdateClienteController {
     		Stage stage = new Stage();
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
-    		stage.show();
+            stage.setTitle("Kauã");
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
     		
     	}catch(Exception e) {
     		e.printStackTrace();
@@ -267,6 +270,9 @@ public class UpdateClienteController {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.setTitle("Kauã");
+            stage.centerOnScreen();
+            stage.setMaximized(true);
             stage.show();
 
         } catch (Exception e) {
