@@ -1,0 +1,67 @@
+Projeto Trading System
+
+Descrição
+
+Sistema desktop desenvolvido em Java utilizando JavaFX para controle de vendas, produtos e estoque.
+
+O sistema permite:
+
+* Cadastro de produtos
+* Controle de estoque (entrada e saída)
+* Histórico de movimentações
+* Sugestão automática de preço de venda
+
+---
+
+Tecnologias utilizadas
+
+* Java
+* JavaFX
+* MySQL
+
+---
+
+Telas do sistema
+
+* Login
+* Novo Funcionário
+* Cadastro de clientes
+* Cadastro de produtos
+* Histórico de estoque
+* Historico de vendas
+* Controle de vendas
+
+---
+
+Como executar o projeto
+
+1. Clone o repositório:
+
+```
+git clone https://github.com/KauaFelype1/ProjetoVendas.git
+```
+
+2. Abra no Eclipse ou IntelliJ
+
+3. Configure o JavaFX:
+
+* Adicione as bibliotecas do JavaFX
+* Configure VM Options
+
+4. Execute a classe principal
+
+---
+
+Banco de dados
+
+Crie o banco com base no modelo:
+
+* Banco sistema
+* Tabela: produto
+* Tabela: movimentacao_estoque
+
+--
+Intuito do projeto
+
+Facilitar as vendas de um comércio, onde pode-se controlar todo o estoque de produtos, processar o historico de movimentação de entrada e saída de um produto
+além de ter acesso aos usuários, podendo controlalos de forma limpa e segura
