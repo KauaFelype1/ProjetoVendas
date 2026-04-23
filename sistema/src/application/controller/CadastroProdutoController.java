@@ -118,7 +118,7 @@ public class CadastroProdutoController {
             produto.setPreco(Double.parseDouble(txtPreco.getText().replace(",", ".")));
             produto.setQuantidade(0);
             produto.setCodigo(txtCode.getText());
-            produto.setPrecoCusto(Double.parseDouble(txtPrecoComprado.getText()));
+            produto.setPrecoCusto(Double.parseDouble(txtPrecoComprado.getText().replace(",", ".")));
 
             produto.Salvar();
 

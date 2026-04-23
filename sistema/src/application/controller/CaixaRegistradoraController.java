@@ -491,7 +491,10 @@ public class CaixaRegistradoraController {
     		Stage stage = new Stage();
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
-    		stage.showAndWait();
+            stage.setTitle("Kauã");
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
     		
     	}catch(Exception e) {
     		e.printStackTrace();
